@@ -9,7 +9,8 @@ Após o download, descompacte o arquivo e então copie a pasta _ssl_ onde todos 
 ![image](https://github.com/user-attachments/assets/7ff36e20-eef7-4f93-9409-b8f826223d9c)
 
 Agora vamos precisar criar o arquivo de configuração para levantarmos o servidor.
-Você pode fazer o download do arquivo de configuração [aqui](server-ofb.properties) e copiar este arquivo para a pasta _config/kraft_ que existe dentro da pasta descompactada do Kafka.
+
+Faça download do arquivo [server-ofb.properties](server-ofb.properties) e copie o arquivo para a pasta _config/kraft_ que existe dentro da pasta descompactada do Kafka.
 
 >Obs: Edite o arquivo _server-ofb.properties_, editando as senhas _teste123_ pela senha utilizada no seu keystore e truststore.
 
@@ -232,7 +233,7 @@ Copie o arquivo [consumer.properties](consumer.properties) para a pasta _config_
 Rode o comando abaixo para se conectar ao servidor Kafka como consumer:
 
 ```
-bin/kafka-console-consumer.sh --bootstrap-server localhost:9095 --topic ssl_test_topic --consumer.config config/producer.properties --from-beginning
+bin/kafka-console-consumer.sh --bootstrap-server localhost:9095 --topic ssl_test_topic --consumer.config config/consumer.properties --from-beginning
 ```
 
 Se tudo deu certo irá ver todos eventos que foram enviados e o prompt ficará travado esperando novos eventos chegarem.

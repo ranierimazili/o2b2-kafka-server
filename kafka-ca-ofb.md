@@ -1,0 +1,1 @@
+# Adicionando as Autoridades Certificadoras do Open Finance Brasil ao servidor Kafka
