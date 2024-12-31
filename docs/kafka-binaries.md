@@ -10,7 +10,7 @@ Após o download, descompacte o arquivo e então copie a pasta _ssl_ onde todos 
 
 Agora vamos precisar criar o arquivo de configuração para levantarmos o servidor.
 
-Faça download do arquivo [server-ofb.properties](server-ofb.properties) e copie o arquivo para a pasta _config/kraft_ que existe dentro da pasta descompactada do Kafka.
+Faça download do arquivo [server-ofb.properties](./confs/server-ofb.properties) e copie o arquivo para a pasta _config/kraft_ que existe dentro da pasta descompactada do Kafka.
 
 >Obs: Edite o arquivo _server-ofb.properties_, editando as senhas _teste123_ pela senha utilizada no seu keystore e truststore.
 
@@ -122,7 +122,7 @@ Pronto! Já temos a truststore do producer.
 
 ### Testando a conexão do producer
 ---
-Copie o arquivo [producer.properties](producer.properties) para a pasta _config_ do kafka que você descompactou. 
+Copie o arquivo [producer.properties](./confs/producer.properties) para a pasta _config_ do kafka que você descompactou. 
 >Obs: Edite o arquivo _producer.properties_, editando as senhas _teste123_ pela senha utilizada no seu keystore e truststore.
 
 Rode o comando abaixo para se conectar ao servidor Kafka como producer:
@@ -227,7 +227,7 @@ Pronto! Já temos a truststore do consumer.
 
 ### Testando a conexão do consumer
 ---
-Copie o arquivo [consumer.properties](consumer.properties) para a pasta _config_ do kafka que você descompactou
+Copie o arquivo [consumer.properties](./confs/consumer.properties) para a pasta _config_ do kafka que você descompactou
 >Obs: Edite o arquivo _consumer.properties_, editando as senhas _teste123_ pela senha utilizada no seu keystore e truststore.
 
 Rode o comando abaixo para se conectar ao servidor Kafka como consumer:

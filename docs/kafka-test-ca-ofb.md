@@ -48,7 +48,7 @@ cp ssl/kafka-consumer-truststore.jks ssl/kafka-consumer-ofb-truststore.jks
 ## Criando o arquivo consumer-ofb.properties
 Vamos também criar um novo arquivo de pametrização para esse novo consumer.
 
-Faça download do arquivo [consumer-ofb.properties](consumer-ofb.properties) e salve no diretório _config_ do seu servidor Kafka.
+Faça download do arquivo [consumer-ofb.properties](./confs/consumer-ofb.properties) e salve no diretório _config_ do seu servidor Kafka.
 
 ## Criando a ACL para o novo consumer
 Se você apenas tentar conectar no tópico _ssl_test_topic_ com o comando abaixo, receberá uma mensagem de erro do tipo **TOPIC_AUTHORIZATION_FAILED**:

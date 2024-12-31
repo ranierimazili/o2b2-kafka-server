@@ -8,8 +8,8 @@ Neste repositório iremos trabalhar nos componentes que ficam na DMZ, que são o
 ![ofb-kafka drawio](https://github.com/user-attachments/assets/3fcfb3d9-9d73-413a-8c45-0475b65af58e)
 
 ## Índice
-1. [Configurando a Autoridade Certificadora interna](kafka-ca.md)
-2. [Iniciando e testando o servidor Kafka](kafka-binaries.md)
-3. [Configurando as ACL's](kafka-acl.md)
-4. [Adicionando as Autoridades Certificadoras do Open Finance Brasil](kafka-ca-ofb.md)
-5. [Testando a conexão com certificados do Open Finance Brasil][kafka-test-ca-ofb.md]
+1. [Configurando a Autoridade Certificadora interna](./docs/kafka-ca.md)
+2. [Iniciando e testando o servidor Kafka](./docs/kafka-binaries.md)
+3. [Configurando as ACL's](./docs/kafka-acl.md)
+4. [Adicionando as Autoridades Certificadoras do Open Finance Brasil](./docs/kafka-ca-ofb.md)
+5. [Testando a conexão com certificados do Open Finance Brasil](./docs/kafka-test-ca-ofb.md)
