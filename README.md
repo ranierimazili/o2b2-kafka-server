@@ -12,3 +12,4 @@ Neste repositório iremos trabalhar nos componentes que ficam na DMZ, que são o
 2. [Iniciando e testando o servidor Kafka](kafka-binaries.md)
 3. [Configurando as ACL's](kafka-acl.md)
 4. [Adicionando as Autoridades Certificadoras do Open Finance Brasil](kafka-ca-ofb.md)
+5. [Testando a conexão com certificados do Open Finance Brasil][kafka-test-ca-ofb.md]
