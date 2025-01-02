@@ -4,7 +4,7 @@ Agora que já temos tudo configurado, precisamos adicionar as Autoridades Certif
 
 Para buscar essa lista de certificados, vamos utilizar o projeto [o2b2-update-acs](https://github.com/ranierimazili/o2b2-update-acs/) que já faz a extração das autoridades certificadoras a partir do Diretório de Participantes.
 
-Clone o repositório do projeto:
+Fora da pasta do servidor Kafka, clone o repositório do projeto:
 ```
 git clone https://github.com/ranierimazili/o2b2-update-acs.git
 ```
@@ -63,3 +63,5 @@ keytool -list -keystore kafka-server-truststore.jks -storepass teste123
 _Obs: Altere a senha **teste123** pela senha informada da sua truststore_
 
 Pronto! Agora basta iniciar/reiniciar o servidor Kafka para que as alterações sejam aplicadas.
+
+Agora você pode ir para o próximo passo: [Testando a conexão com certificados do Open Finance Brasil](./kafka-test-ca-ofb.md)

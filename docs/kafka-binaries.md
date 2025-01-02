@@ -140,7 +140,7 @@ Basta digitar qualquer conteúdo e dar ENTER para que o evento seja enviado.
 ## Testando o consumidor(consumer) Kafka
 **Antes de começar, uma explicação...**
 
-O certificado que será criado agora é apenas para um teste inicial, pois no ambiente final nós iremos permitir que certificados assinados por AC's homologadas no Open Finance ou a AC do Diretório de Participantes (sandbox) possam se conectar como consumidores. Portanto, tudo que iremos fazer nessa sessão, porteriormente, iremos jogar fora.
+O certificado que será criado agora é apenas para um teste inicial, pois no ambiente final nós iremos permitir que certificados assinados por AC's homologadas no Open Finance ou a AC do Diretório de Participantes (sandbox) possam se conectar como consumidores. Portanto, tudo que iremos fazer nessa sessão, tem apenas a finalidade des teste para garantir que consumers com SSL estão funcionando corretamente.
 
 ### Criando o cerfificado para o consumidor (consumer)
 ---
@@ -244,4 +244,6 @@ Se você mantiver este prompt aberto e abrir o prompt do producer, você poderá
 Se você chegou até aqui e deu tudo certo, ótimo.
 Agora existe um ponto que precisa ser melhorado, a segurança.
 
-Com essa configuração que fizemos, um consumer que possua um certificado válido poderá conectar em qualquer tópico e não é isso que queremos. Queremos que cada consumer, baseado na CN de seu certificado, conecte apenas em tópicos específicos. Para isso precisamos implementar as ACL's.
+Com essa configuração que fizemos, um consumer que possua um certificado válido poderá conectar em qualquer tópico e não é isso que queremos. Queremos que cada consumer, baseado no _subject_ de seu certificado, conecte apenas em tópicos específicos. Para isso precisamos implementar as ACL's.
+
+Agora você pode ir para o próximo passo: [Configurando as ACL's](./kafka-acl.md)

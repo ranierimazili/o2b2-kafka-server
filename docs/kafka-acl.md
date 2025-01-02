@@ -1,6 +1,6 @@
 # Configurando ACL's
 
-Até aqui você configurou o servidor Kafka e também um producer e um consumer, no entanto, o producer e o consumer, com seus respectivos certificados podem acessar qualquer tópico e não é este o comportamento que queremos, então vamos tornar o servidor mais restritivo.
+Até aqui você configurou o servidor Kafka, um producer e um consumer, no entanto, o producer e o consumer, com seus respectivos certificados podem acessar qualquer tópico e não é este o comportamento que queremos, então vamos tornar o servidor mais restritivo.
 
 Edite o arquivo _config/kraft/server-ofb.properties_ e descomente as últimas 3 linhas que existem nele para que fiquem com as opções abaixo ativas.
 
@@ -76,3 +76,5 @@ Pronto! Agora você conseguirá se conectar ao tópico novamente como consumer e
 ```
 bin/kafka-console-consumer.sh --bootstrap-server localhost:9095 --topic ssl_test_topic --consumer.config config/consumer.properties --from-beginning
 ```
+
+Agora você pode ir para o próximo passo: [Adicionando as Autoridades Certificadoras do Open Finance Brasil](./kafka-ca-ofb.md)

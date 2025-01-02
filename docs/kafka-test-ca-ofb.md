@@ -4,7 +4,7 @@ Para realizar os testes você precisará de um certificado BRCAC (também conhec
 
 Durante os próximos passos, irei me referir a chave privada como _brcac.key_ e a chave pública como _brcac.pem_, pois estes são os nomes padrões dos arquivos gerados pelo diretório de sandbox, portanto altere a referência a estes arquivos para o nome dos seus arquivos.
 
-Também copiei os arquivos _brcac.key_ e _brcac.pem_ para o diretório ssl do servidor Kafka para facilitar os comandos. Leve isso em consideração quando estiver rodando os comandos.
+Também copiei os arquivos _brcac.key_ e _brcac.pem_ para o diretório _ssl_ do servidor Kafka para facilitar os comandos. Leve isso em consideração quando estiver rodando os comandos.
 
 Os comandos serão executados levando em consideração que estamos no diretório raiz do servidor Kafka.
 
@@ -62,7 +62,7 @@ Isso acontece porque apesar de agora aceitarmos certificados emitidos por outras
 
 **Antes de irmos para o próximo passo, você precisa entender uma questão sobre o subject de certificados e subject de certificados do Open Finance Brasil.**
 
-Quando extraímos o subject de um certificado através do comando openssl que usamos anteriormente, ele irá mostrar o certificado em formato _human readable(legível para humanos)_:
+Quando extraímos o _subject_ de um certificado através do comando openssl que usamos anteriormente, ele irá mostrar o _subject_ em formato _human readable(legível para humanos)_:
 
 ```
 openssl x509 -in ssl/brcac.pem -noout -subject -nameopt RFC2253
@@ -74,17 +74,19 @@ A saída desse comando será algo parecido com:
 subject=UID=91630aa7-0537-486c-851c-39791314538a,organizationIdentifier=OFBBR-7292c33f-e95a-5fe7-8f27-gg7a95c68b55,jurisdictionC=BR,businessCategory=Private Organization,serialNumber=54246410000166,CN=meubanco.com.br,O=MEU BANCO S.A.,L=SAO PAULO,ST=SP,C=BR
 ```
 
-No entanto, não é exatamente esse subject que servidor Kafka irá fazer a comparação. Ele irá usar outros atributos do certificado para entender quais atributos do subject devem ser interpretados como _human readable_ e quais devem ser interpretados como ASN.1.
+No entanto, não é exatamente esse _subject_ que servidor Kafka irá fazer a comparação. Ele irá usar outros atributos do certificado para entender quais atributos do _subject_ devem ser interpretados como _human readable_ e quais devem ser interpretados como _ASN.1_.
 
-No caso do Open Finance Brasil, os atributos abaixo devem ser mantidos no formato ASN.1:
+No caso do Open Finance Brasil, os atributos abaixo devem ser mantidos no formato _ASN.1_:
 - organizationIdentifier
 - jurisdictionC
 - businessCategory
 - serialNumber
 
-Sabendo dessa informação, precisaremos montar o subject para o comando kafka-acl manualmente. Vamos lá:
+Outra questão importante é que o servidor Kafka interpreta os valores hexadecimais de A-F do ASN.1 como letras minúsculas e o OpenSSL irá exibir os valores em letras maiúsculas.
 
-Primeiro, rode o comando abaixo para gerar o subject quebrado linha a linha com todos os atributos no formato _human readable_:
+Sabendo destas duas informações, precisaremos montar o _subject_ para o comando kafka-acl manualmente. Vamos lá:
+
+Primeiro, rode o comando abaixo para gerar o _subject_ quebrado linha a linha com todos os atributos no formato _human readable_:
 
 ```
 openssl x509 -subject -noout -nameopt rfc2253 -nameopt sep_multiline -in ssl/brcac.pem
@@ -105,28 +107,28 @@ subject=
     C=BR
 ```
 
-Segundo, rode o comando abaixo para gerar o subject quebrado linha a linha com todos os atributos no formato _ASN.1_:
+Segundo, rode o comando abaixo para gerar o _subject_ quebrado linha a linha com todos os atributos no formato _ASN.1_ em minúsculo:
 
 ```
-openssl x509 -subject -noout -nameopt rfc2253 -nameopt dump_all -nameopt oid -nameopt sep_multiline -in ssl/brcac.pem
+openssl x509 -subject -noout -nameopt rfc2253 -nameopt dump_all -nameopt oid -nameopt sep_multiline -in ssl/brcac.pem | tr 'A-F' 'a-f'
 ```
 O resultado será algo semlhante a isto:
 ```
 subject=
-    0.9.2342.19200300.100.1.1=#132439313633306161372D303533372D343836632D383531632D333937393133313435333861
-    2.5.4.97=#132A4F464242522D38323932633333652D643935612D356665372D386632372D646437613935633638623535
+    0.9.2342.19200300.100.1.1=#132439313633306161372d303533372d343836632d383531632d333937393133313435333861
+    2.5.4.97=#132a4f464242522d38323932633333652d643935612d356665372d386632372d646437613935633638623535
     1.3.6.1.4.1.311.60.2.1.3=#13024252
-    2.5.4.15=#131450726976617465204F7267616E697A6174696F6E
-    2.5.4.5=#130E3435323436343130303030313535
-    2.5.4.3=#131262616E636F67656E69616C2E636F6D2E6272
-    2.5.4.10=#131142414E434F2047454E49414C20532E412E
-    2.5.4.7=#130E52494F204445204A414E4549524F
-    2.5.4.8=#1302524A
+    2.5.4.15=#131450726976617465204f7267616e697a6174696f6e
+    2.5.4.5=#130e3435323436343130303030313535
+    2.5.4.3=#131262616e636f67656e69616c2e636f6d2e6272
+    2.5.4.10=#131142414e434f2047454e49414c20532e412e
+    2.5.4.7=#130e52494f204445204a414e4549524f
+    2.5.4.8=#1302524a
     2.5.4.6=#13024252
 ```
 >Note que a ordem dos atributos é mesma, a diferença é apenas o formato, portanto o atributo da primeira linha em _human readable_ é o atributo da primeira linha no formato _ASN.1_.
 
-Terceiro, vamos pegar o subject em formato _human readable_ e substituir os atributos que precisam estar em _ASN.1_ (organizationIdentifier,jurisdictionC,businessCategory,serialNumber) para seu resultado no segundo subject. Fazendo isso manualmente, seu resultado deve algo parecido com o abaixo:
+Terceiro, vamos pegar o _subject_ em formato _human readable_ e substituir os atributos que precisam estar em _ASN.1_ (organizationIdentifier,jurisdictionC,businessCategory,serialNumber) para seu resultado no segundo subject. Fazendo isso manualmente, seu resultado deve algo parecido com o abaixo:
 
 ```
 subject=
@@ -142,7 +144,7 @@ subject=
     C=BR
 ```
 
-Agora precisamo descartar a primeira linha (subject=) e nas demais, vamos remover os espaços vázios a esquerda e trocar a quebra de linha por vírgula (,), assim você terá um subject semelhante ao abaixo:
+Agora precisamo descartar a primeira linha (subject=) e nas demais, vamos remover os espaços vázios a esquerda e trocar a quebra de linha por vírgula (,), assim você terá um _subject_ semelhante ao abaixo:
 
 ```
 UID=91630aa7-0537-486c-851c-39791314538a,2.5.4.97=#132A4F464242522D38323932633333652D643935612D356665372D386632372D646437613935633638623535,1.3.6.1.4.1.311.60.2.1.3=#13024252,2.5.4.15=#131450726976617465204F7267616E697A6174696F6E,2.5.4.5=#130E3435323436343130303030313535,CN=meubanco.com.br,O=MEU BANCO S.A.,L=SAO PAULO,ST=SP,C=BR
@@ -161,3 +163,4 @@ Agora você pode rodar o comando abaixo e caso tudo esteja certo, ele irá consu
 bin/kafka-console-consumer.sh --bootstrap-server localhost:9095 --topic ssl_test_topic --consumer.config config/consumer-ofb.properties --from-beginning
 ```
 
+Pronto! Agora está tudo configurado e funcionando.

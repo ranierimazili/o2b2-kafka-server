@@ -19,7 +19,7 @@ openssl \
     -keyout ssl/ca-key \
     -out ssl/ca-cert \
     -days 3650 \
-    -subj "/CN=Autoridade Certificadora de Auto-assinados RaniBank" \
+    -subj "/CN=Autoridade Certificadora de Auto-assinados" \
     -nodes
 ```
 
@@ -34,7 +34,7 @@ openssl genrsa -out ssl/kafka-server.key 2048
 Vamos agora gerar o pedido de certificado para ser assinado pela nossa AC
 
 ```
-openssl req -new -key ssl/kafka-server.key -out ssl/kafka-server.csr -subj "/CN=kafka.ranieri.dev.br"
+openssl req -new -key ssl/kafka-server.key -out ssl/kafka-server.csr -subj "/CN=kafka.meudominio.dev.br"
 ```
 _Obs: Altere a CN do comando acima para o seu host_
 
@@ -109,3 +109,5 @@ keytool -importcert -alias ca-cert -file ssl/ca-cert -keystore ssl/kafka-server-
 _Obs: Altere a senha **teste123** pela senha informada no primeiro comando_
 
 Pronto! Já temos a truststore do servidor Kafka.
+
+Agora você pode ir para o próximo passo: [Iniciando e testando o servidor Kafka](./kafka-binaries.md)
